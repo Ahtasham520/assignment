@@ -1,0 +1,268 @@
+<script>
+
+// Pyramid of doom:
+
+// The term "pyramid of doom" in JavaScript refers to a coding pattern that arises when dealing with nested callbacks,
+// particularly in asynchronous code.When you have multiple nested asynchronous operations, the code structure can
+// become deeply nested and harder to read, resembling a pyramid.
+
+
+// Example:
+// function getcheese(Callback){
+//     setTimeout(() => {
+//         const cheese = "🧀";
+//        console.log("Here is cheese " + cheese )
+//         Callback(cheese);
+//     } , 2000)
+// }
+
+// function makedough(cheese, Callback){
+//     setTimeout(() =>{
+//         const dough = cheese + "🥠";
+//         console.log ("Her is dough " + dough)
+//         Callback(dough)
+//     },2000)
+// }
+
+// function makepizza(dough, Callback){
+//     setTimeout(() =>{
+//         const pizza = dough + "🍕";
+//         console.log ("Her is  Pizza " + pizza)
+//         Callback(pizza)
+//     },2000)
+// }
+
+
+// getcheese((cheese) => {
+//   makedough(cheese , dough =>{
+//     makepizza(dough,pizza =>{
+//          console.log("Here is my " + pizza)
+//     })  
+//   });
+// });
+
+
+
+
+// Promises:
+// A promise in JavaScript is an object that represents the eventual completion or failure of an asynchronous 
+// operation and its resulting value. It is a way to handle asynchronous code more elegantly and avoid the
+// so-called "Callback Hell" or "Pyramid of Doom."
+
+// A Promise can be in one of three states:
+// Pending: The initial state; the promise is neither fulfilled nor rejected
+// Fulfilled: The operation completed successfully, and the promise has a resulting value.
+// Rejected: The operation failed, and the promise has a reason for the failure.
+
+
+// Example 1:
+// const ticket = new Promise(function(resolve,reject){
+//     const passanger = true;
+//     if(passanger){
+//         resolve("You are in the flight");
+//     }  else{
+//         reject("Sorry your flight is cancelled");
+//     }
+// });
+
+// ticket.then((data) =>{
+//     console.log("wohoooo" , data)
+// }).catch((data) =>{
+//   console.log("oh no" , data)
+// });
+
+
+// Example 2:
+// function getcheese(){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const cheese = "🧀"; 
+//     resolve(cheese)
+//     }, 2000)
+//     });   
+// }
+
+// function makedough(cheese){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const dough = "🥯" + cheese;
+//     resolve(dough)
+//     }, 2000)
+//     });   
+// }
+
+// function makepizza(dough){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const pizza = "🍕" + dough;
+//     resolve(pizza)
+//     }, 2000)
+//     });   
+// }
+
+// getcheese().then((cheese)=>{
+//     console.log("Here is cheese " , cheese);
+//     return(makedough(cheese));
+// }).then((dough)=>{
+//     console.log("Here is dough " , dough);
+//     return(makepizza(dough));
+// }).then((pizza)=>{
+//     console.log("Here is pizza " , pizza);
+// });
+
+
+// Example3:
+// function getcheese(){
+// return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const cheese = "🧀"; 
+//     resolve(cheese)
+//     }, 2000)
+//     });   
+// }
+
+// function makedough(cheese){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const dough = "🥯" + cheese;
+//     reject("Due to bad Cheese")
+//     }, 2000)
+//     });   
+// }
+
+// function makepizza(dough){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const pizza = "🍕" + dough;
+//     resolve(pizza)
+//     }, 2000)
+//     });   
+// }
+
+// getcheese().then((cheese)=>{
+//     console.log("Here is cheese " , cheese);
+//     return(makedough(cheese));
+// }).then((dough)=>{
+//     console.log("Here is dough " , dough);
+//     return(makepizza(dough));
+// }).then((pizza)=>{
+//     console.log("Here is pizza " , pizza);
+// }).catch((data) => {
+//     console.log(data , "not make pizza")
+// })
+
+
+
+
+// Async/Await:
+// async/await is a feature in JavaScript introduced in ECMAScript 2017 (ES8) to simplify the process of writing
+// and managing asynchronous code. It provides a more readable and concise syntax for handling asynchronous 
+// operations compared to traditional callback-based patterns.
+
+// Here are some key points about async/await:
+
+// async Function:
+// The async keyword is used to declare a function as asynchronous. When a function is marked as async, it always
+// returns a Promise
+
+// await Operator:
+// The await keyword is used inside an async function to pause the execution of the function until a specific 
+// asynchronous operation is completed.
+// The expression after await is usually a Promise, and the result of the Promise is held by the variable.
+
+// Example1:
+// function getcheese(){
+// return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const cheese = "🧀"; 
+//     resolve(cheese)
+//     }, 2000)
+//     });   
+// }
+
+// function makedough(cheese){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const dough = "🥯" + cheese;
+//     // reject("Due to bad Cheese")
+//     resolve(dough)
+//     }, 2000)
+//     });   
+// }
+
+// function makepizza(dough){
+//     return new Promise((resolve,reject) =>{
+//         setTimeout(() =>{
+//     const pizza = "🍕" + dough;
+//     resolve(pizza)
+//     }, 2000)
+//     });   
+// }
+
+// async function orderpizza(){
+//   const cheese = await getcheese();
+//   console.log("Here is cheese " , cheese);
+
+//   const dough  = await makedough(cheese);
+//   console.log("Here is dough " , dough);
+
+//   const pizza = await makepizza(dough);
+//   console.log("Here is pizza " , pizza);
+// }
+// orderpizza();
+
+
+// Error Handling:
+// Error handling in async/await can be done using a try-catch block, making the code cleaner and more readable.
+
+// Example2:
+function getcheese(){
+return new Promise((resolve,reject) =>{
+        setTimeout(() =>{
+    const cheese = "🧀"; 
+    resolve(cheese)
+    }, 2000)
+    });   
+}
+
+function makedough(cheese){
+    return new Promise((resolve,reject) =>{
+        setTimeout(() =>{
+    const dough = "🥯" + cheese;
+    // reject("Due to bad Cheese")
+    resolve(dough)
+    }, 2000)
+    });   
+}
+
+function makepizza(dough){
+    return new Promise((resolve,reject) =>{
+        setTimeout(() =>{
+    const pizza = "🍕" + dough;
+    resolve(pizza)
+    }, 2000)
+    });   
+}
+
+async function orderpizza(){
+    try{
+  const cheese = await getcheese();
+  console.log("Here is cheese " , cheese);
+
+  const dough  = await makedough(cheese);
+  console.log("Here is dough " , dough);
+
+  const pizza = await makepizza(dough);
+  console.log("Here is pizza " , pizza);
+} catch (data) {
+    console.log ("error occured " ,data)
+}
+}
+orderpizza();
+
+
+
+
+
+
+</script>
